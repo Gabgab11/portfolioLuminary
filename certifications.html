@@ -9,12 +9,85 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<style>
+  .theme-toggle{background:transparent;border:none;padding:0;cursor:pointer;margin:0 6px;line-height:0;}
+  .theme-toggle-track{width:44px;height:24px;border-radius:999px;background:#3a332b;display:flex;align-items:center;padding:2px;transition:background .3s ease;}
+  .theme-toggle-thumb{width:20px;height:20px;border-radius:50%;background:#f3d98b;color:#2b2013;display:flex;align-items:center;justify-content:center;transform:translateX(0);transition:transform .3s ease,background .3s ease;}
+  .theme-toggle-thumb .icon-moon{display:none;}
+  html[data-theme="light"] .theme-toggle-track{background:#d9cdb8;}
+  html[data-theme="light"] .theme-toggle-thumb{transform:translateX(20px);background:#fff7e6;color:#7a5b1e;}
+  html[data-theme="light"] .theme-toggle-thumb .icon-sun{display:none;}
+  html[data-theme="light"] .theme-toggle-thumb .icon-moon{display:block;}
+
+  html[data-theme="light"] body,
+  html[data-theme="light"] .site-header,
+  html[data-theme="light"] .hero,
+  html[data-theme="light"] .work,
+  html[data-theme="light"] .experience,
+  html[data-theme="light"] .tools,
+  html[data-theme="light"] .thoughts,
+  html[data-theme="light"] .contact,
+  html[data-theme="light"] .site-footer{
+    background-color:#faf3e6 !important;
+    color:#241d15 !important;
+  }
+  html[data-theme="light"] .project,
+  html[data-theme="light"] .tool-card,
+  html[data-theme="light"] .thought-card{
+    background-color:#ffffff !important;
+    color:#241d15 !important;
+    border-color:rgba(0,0,0,.08) !important;
+  }
+  html[data-theme="light"] h1,
+  html[data-theme="light"] h2,
+  html[data-theme="light"] h3,
+  html[data-theme="light"] p,
+  html[data-theme="light"] .nav a,
+  html[data-theme="light"] .brand{
+    color:#241d15 !important;
+  }
+  html[data-theme="light"] .eyebrow,
+  html[data-theme="light"] .stat-num,
+  html[data-theme="light"] .tool-name{
+    color:#a8672e !important;
+  }
+  html[data-theme="light"] .btn-primary{
+    background:#caa23d !important;
+    color:#241d15 !important;
+  }
+  html[data-theme="light"] .btn-ghost{
+    border-color:#241d15 !important;
+    color:#241d15 !important;
+  }
+
+  @media (max-width: 760px){
+    .site-header{position:relative;z-index:1000;}
+    .nav{
+      position:fixed !important;
+      inset:0 !important;
+      background:#0d0b09 !important;
+      z-index:999 !important;
+      flex-direction:column;
+      align-items:flex-start;
+      justify-content:flex-start;
+      gap:22px;
+      padding:110px 32px 40px;
+      overflow-y:auto;
+    }
+    html[data-theme="light"] .nav{background:#faf3e6 !important;}
+    .nav a{font-size:1.35rem;width:100%;}
+    .theme-toggle{order:2;}
+    .nav-toggle{order:3;}
+  }
+</style>
 </head>
 <body>
+<script>(function(){try{if(localStorage.getItem('ldg-theme')==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
 
 <header class="site-header">
   <a class="brand" href="index.html#top">Luminary Digital Group</a>
   <nav class="nav" id="siteNav">
+    <a href="index.html#top">Home</a>
     <a href="about.html">About</a>
     <a href="index.html#work">Work</a>
     <a href="index.html#experience">Experience</a>
@@ -23,6 +96,14 @@
     <a href="index.html#thoughts">Thoughts</a>
     <a href="index.html#contact" class="nav-cta">Start a project</a>
   </nav>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle day and night mode" type="button">
+    <span class="theme-toggle-track">
+      <span class="theme-toggle-thumb">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="12" y1="1.5" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22.5"/><line x1="1.5" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22.5" y2="12"/><line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/><line x1="4.2" y1="19.8" x2="6" y2="18"/><line x1="18" y1="6" x2="19.8" y2="4.2"/></g></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+      </span>
+    </span>
+  </button>
   <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
@@ -93,5 +174,41 @@
 </footer>
 
 <script src="script.js"></script>
+<script>
+(function(){
+  var root = document.documentElement;
+  var themeBtn = document.getElementById('themeToggle');
+  if(themeBtn){
+    themeBtn.addEventListener('click', function(){
+      var isLight = root.getAttribute('data-theme') === 'light';
+      if(isLight){
+        root.removeAttribute('data-theme');
+        try{ localStorage.setItem('ldg-theme','dark'); }catch(e){}
+      } else {
+        root.setAttribute('data-theme','light');
+        try{ localStorage.setItem('ldg-theme','light'); }catch(e){}
+      }
+    });
+  }
+
+  var navBtn = document.getElementById('navToggle');
+  if(navBtn){
+    var obs = new MutationObserver(function(){
+      var open = navBtn.getAttribute('aria-expanded') === 'true';
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    obs.observe(navBtn, {attributes:true, attributeFilter:['aria-expanded']});
+
+    document.querySelectorAll('.nav a').forEach(function(a){
+      a.addEventListener('click', function(){
+        if(navBtn.getAttribute('aria-expanded') === 'true'){
+          navBtn.click();
+        }
+      });
+    });
+  }
+})();
+</script>
 </body>
 </html>
+
